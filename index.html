@@ -1,0 +1,198 @@
+<html>
+    <body>
+        <!--this is the component that react controls and appends to!-->
+        <div id="app">
+        </div>
+
+        <!--import declarations are so verbose for no ... wait nvmd it's html-->
+
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+        <!--Babel - which is what lets the browser understand JSX-->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+        <script type="text/jsx">
+            const useState = React.useState; 
+            // the above is equivalent to const { useState } = React; <== which is called destructuring
+
+            function JournalApp() {
+                // # STATE #
+                // state is a variable associated with a component. you can use a react hook to define it. it allows for dynamic components
+                // it's tied to the component and not the DOM, so when you refresh the page it doesn't persist
+                // useState is the react hook, or ready-to-use function, that defines state (benefit of using React!)
+
+                const stateArray = useState(''); // note: the '' is the initialized value, where you enter the entry in text box
+                const entryText = stateArray[0]; 
+                const setEntryText = stateArray[1]; 
+
+                // this is equivalent to const [entryText, setEntryText] = useState(''); <= this is also destructuring
+
+                // now define the table of entries 
+                const entriesArray = useState([]); // same principle as above, except use an empty list 
+                const entries = entriesArray[0];
+                const setEntries = entriesArray[1];
+
+                // now that we have this state, we need to presumably render HTML/JSX around it ...
+
+                // # HANDLERS #
+                // misconception - before making the view, we need handlers!
+                    // there will be two handlers - submitting an inputted entry and then getting the entries already submitted
+                    // also the browser has default behavior that will be overidden - and we need to build in some debug / UX stuff
+
+                // the below is arrow function syntax - we're essentially setting a variable to a lambda 
+                // (event) is the event object that the browser passes to the handler
+                // todo: read up on how browser event objects work, etc. and how handlers work
+                // note that the event object is passed in automatically by the browser, so you don't need to pass it in
+                const handleFormSubmit = (event) => {
+                    // so first override the browser's default event handling behavior - pays dividents to read about this!
+                    event.preventDefault();
+                    // now we can do stuff with the event, like get the text from the input field
+
+                    const newEntry = { id: Date.now(), text: entryText }; // Only store id and text; date can be computed from id when rendering
+
+                    console.log("Submitting new entry to the backend, " , newEntry);
+
+                    // React needs an entirely new array in the memory address so you need to change the pointer
+                    // the below will be the pointer to the new array of entries
+
+                    const newListOfEntries = [];
+                    newListOfEntries.push(newEntry);
+
+                    // now we write an updating algorithm! 
+                    for (let i=0; i < entries.length; i++) {
+                        newListOfEntries.push(entries[i]); // this is the old entries, so we can keep them
+                    }
+
+                    // WRONG WAY: entries = newListOfEntries; this violates the rule of immutability in React
+                    // RIGHT WAY: use the setter!
+                    setEntries(newListOfEntries);
+
+                    // this is just for UX - change the field to empty string after submitting
+                    setEntryText('');
+
+                    // NOTE! the above is just verbose and is equivalent to the below:
+                    // setEntries([newEntry, ...entries]); // this is the spread operator, which is a shorthand for the above
+
+                };
+
+                const handleFetchEntries = () => {
+                   
+                try { // TODO: implement this function to fetch entries from a database or local storage
+
+                    console.log("Getting all past journal entries...");
+
+                    // replace this with actual fetching logic, e.g., an API call
+                    // for now just dummy data in a static array
+                    const response = await fetch('http://localhost:8000/entries');
+                    const fetchedEntries = await fetchedEntries.json();
+                    setEntries(fetchedEntries);
+                } catch (error) { console.log("Failed to fetch entries!". error);
+                };
+                
+                // # VIEW #
+                // FYI - you want to wrap this in a return statement!!
+
+                return (
+                    // 1. Form that lets you insert a journal entry
+                        // 1.a Create form element where you can type into, set it to some initial value
+                        // 1.b Create button that submits the form
+                        // 1.c. Update entries with the text when you click the button
+                
+                    // 2. Table that displays all the journal entries with the columns {date, entry text}
+                        // 2.a Create a table element 
+                        // 2.b Populate the table row with each entry in the entries stateArray
+                        // 2.c Ensure the table updates with each new entry I add
+
+                    // 3. Render the component - wait nvm, this is done by the root.render() call above??
+
+                    <div>
+                        <h1> Finally, a Journal App! </h1>
+                        {/* FYI - this is a comment in React!*/}
+                        <form onSubmit = {handleFormSubmit}>
+                            <label>
+                                Journal entry 
+                                <input 
+                                    type="text" 
+                                    value={entryText}
+                                    onChange={(e) => setEntryText(e.target.value)} // this is the event handler for input change
+                                />
+                            </label>
+                            <button type="submit" >Submit</button>
+                        </form>
+
+                        <hr / >
+
+                        <button onClick={handleFetchEntries}>Get All Entries</button>
+
+                        {/* Table to display entries */}
+
+                        {/*TODO: get familiar with different DOM events and DOM node types */}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Entry</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/*TODO: get familiar with maps! seem super userful*/}
+                                {entries.map(entry => (
+                                        <tr key={entry.id}>
+                                            <td>{new Date(entry.id).toLocaleDateString()}</td>
+                                            <td>{entry.text}</td>
+                                        </tr>
+                                ))}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+
+                )
+                
+            
+            };
+
+            // note that the top components here affect the rendering and speed of rest of components
+            // so, put dynamically rendering components (E.g., database fetches) at the bottom and cache where possible
+
+            const app = document.getElementById('app');
+            const root = ReactDOM.createRoot(app);
+            root.render(
+                <JournalApp />
+            );
+
+            // TODO: better understand STATEMENTS vs. EXPRESSIONS in Javascript and JSX
+        }
+        </script>
+
+        
+    
+        <!-- <script type="text/javascript">
+            const app = document.getElementById('app');
+            const header = document.createElement('h2');
+            const text = 'Develop. Preview. Ship';
+            const headerContent = document.createTextNode(text);
+            header.appendChild(headerContent);
+            app.appendChild(header);
+
+            const subtitle = document.createElement('h3');
+            const subText = "He is learning how to do the thing that's always eluded him. Finally, it comes."
+            const subContent = document.createTextNode(subText);
+            subtitle.appendChild(subContent);
+            app.appendChild(subtitle);
+
+            //so above, what we did:
+            /*
+            - accessed the DOM by escaping into javascript and calling the DOM/document object
+            - this object has multiple methods:
+                - getElementById (you can get the id you assigned an html tag)
+                - createElement (create an html tag)
+                - createTextNode (same as above, but text)
+                - appendChild (add a leaf to the DOM tree)
+            Since the above appends it all to app, it's 
+            This is I'm assuming how react is manipulating the DOM
+            */
+        </script> -->
+    </body>
+</html>
