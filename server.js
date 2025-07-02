@@ -9,7 +9,6 @@ import cors from 'cors';
 // we may first need an app - how do I use express to set up an app?
 const app = express(); // always use the const keyword to declare a variable!
 const PORT = 8000;
-app.listen(PORT);
 
 // this bit here is called middleware, and it lets the app understand JSON and CORS requests
 app.use(cors()); // this allows the front end to talk to the backend by editing the headers so the browser doesn't freak out
@@ -19,7 +18,7 @@ app.use(express.json()); // this takes JSON formatted requests and turns them in
 // this just created the "handle" for the db , or the pointer - not hydrated/initialized yet 
 // set up the database
 const adapter = new JSONFile('db.json'); // this sets up the file that stores the data and abstracts the JSON // operations so we can use it like a database
-const db = Low(adapter); // this is the db, it can read and write, and uses the adapter (which abstracts some JSON ops)
+const db = new Low(adapter, {'entries':[]}); // this is the db, it can read and write, and uses the adapter (which abstracts some JSON ops)
 
 
 // # HYDRATE/INITIALIZE THE DATABASE

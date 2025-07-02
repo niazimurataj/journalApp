@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "id": 1751485839939,
+      "text": "Will this work? Will this persist across closes? If it does - a huge step has been made..."
+    },
+    {
+      "id": 1751485852851,
+      "text": "Testing now whether this persists ... closing this app's window"
+    },
+    {
+      "id": 1751485888233,
+      "text": "It persisted! It persisted! For the love of GOD it persisted! Wow ... finally! Now, to rehearse this again, and again, and again. And to perhaps sophisticate this later"
+    },
+    {
+      "id": 1751486004685,
+      "text": "Let's see if the entries are now reversed??"
+    },
+    {
+      "id": 1751486018270,
+      "text": "They are not reversed, still showing up reverse chronologically"
+    },
+    {
+      "id": 1751486029487,
+      "text": "Oh, now the entries are all jumbled!"
+    },
+    {
+      "id": 1751486281478,
+      "text": "Wait - apparently I need to copy because reverse is a mutating method. Which was probably leading to the jumbling. Let's see now"
+    },
+    {
+      "id": 1751486302142,
+      "text": "Mmmmm...let's maybe augment the date with the hour of addition also??"
+    },
+    {
+      "id": 1751486384282,
+      "text": "Alright -- now it displays times also"
+    },
+    {
+      "id": 1751486504142,
+      "text": "Strange - so anytime I add a new entry, it shows the entry at the bottom of the reversed list. When I click the button - get all entries - it orders them properly. I wonder what's leading to this .. I can't quite pinpoint it in the code. Hmm... is this something to do with react state?"
+    },
+    {
+      "id": 1751486668290,
+      "text": "Testing whether the fix applies"
+    },
+    {
+      "id": 1751486702321,
+      "text": "IT does! We fixed even that. This was something interesting, ebcause I was feetching the entries chronologically but rendering them reverse-chronologically. THe way here is to render the entries just as they are fetched, but to reverse the order of the fetching"
+    }
+  ]
+}

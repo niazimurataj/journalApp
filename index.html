@@ -44,12 +44,19 @@
                 // (event) is the event object that the browser passes to the handler
                 // todo: read up on how browser event objects work, etc. and how handlers work
                 // note that the event object is passed in automatically by the browser, so you don't need to pass it in
-                const handleFormSubmit = (event) => {
+                
+                const handleFormSubmit = async (event) => {
                     // so first override the browser's default event handling behavior - pays dividents to read about this!
                     event.preventDefault();
                     // now we can do stuff with the event, like get the text from the input field
 
-                    const newEntry = { id: Date.now(), text: entryText }; // Only store id and text; date can be computed from id when rendering
+                    const request = await fetch('http://localhost:8000/entries', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({"text": entryText})
+                    });
+
+                    const newEntry = await request.json();
 
                     console.log("Submitting new entry to the backend, " , newEntry);
 
@@ -76,7 +83,7 @@
 
                 };
 
-                const handleFetchEntries = () => {
+                const handleFetchEntries = async () => {
                    
                 try { // TODO: implement this function to fetch entries from a database or local storage
 
@@ -85,10 +92,12 @@
                     // replace this with actual fetching logic, e.g., an API call
                     // for now just dummy data in a static array
                     const response = await fetch('http://localhost:8000/entries');
-                    const fetchedEntries = await fetchedEntries.json();
-                    setEntries(fetchedEntries);
-                } catch (error) { console.log("Failed to fetch entries!". error);
-                };
+                    const fetchedEntries = await response.json();
+                    setEntries(fetchedEntries.reverse()); // reverse to show most recent entries first
+                } catch (error) { 
+                    console.log("Failed to fetch entries!", error);
+                }
+                };  
                 
                 // # VIEW #
                 // FYI - you want to wrap this in a return statement!!
@@ -137,9 +146,21 @@
                             </thead>
                             <tbody>
                                 {/*TODO: get familiar with maps! seem super userful*/}
-                                {entries.map(entry => (
+                                {[...entries].map(entry => (
                                         <tr key={entry.id}>
-                                            <td>{new Date(entry.id).toLocaleDateString()}</td>
+                                            <td>
+                                                {(() => {
+                                                    const dateObj = new Date(entry.id);
+                                                    const date = dateObj.toLocaleDateString();
+                                                    const time = dateObj.toLocaleTimeString();
+                                                    return (
+                                                        <>
+                                                            <div>{date}</div>
+                                                            <div>{time}</div>
+                                                        </>
+                                                    );
+                                                })()}
+                                            </td>
                                             <td>{entry.text}</td>
                                         </tr>
                                 ))}
@@ -163,7 +184,6 @@
             );
 
             // TODO: better understand STATEMENTS vs. EXPRESSIONS in Javascript and JSX
-        }
         </script>
 
         
