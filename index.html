@@ -26,6 +26,8 @@
                 const entryText = stateArray[0]; 
                 const setEntryText = stateArray[1]; 
 
+                const [view, setView] = useState('journal');
+
                 // this is equivalent to const [entryText, setEntryText] = useState(''); <= this is also destructuring
 
                 // now define the table of entries 
@@ -115,6 +117,8 @@
 
                     // 3. Render the component - wait nvm, this is done by the root.render() call above??
 
+                    { view === "journal"  (
+                    <>
                     <div>
                         <h1> Finally, a Journal App! </h1>
                         {/* FYI - this is a comment in React!*/}
@@ -168,10 +172,14 @@
                             </tbody>
                         </table>
                     </div>
-
-                )
-                
-            
+                    </> ) : (
+                        <div>
+                            <h1>Welcome to the Journal App!</h1>
+                            <p>Please select a view to continue.</p>
+                            <button onClick={() => setView('journal')}>Go to Journal</button>
+                        </div>
+                    ) }
+                );
             };
 
             // note that the top components here affect the rendering and speed of rest of components

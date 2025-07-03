@@ -47,6 +47,10 @@
     {
       "id": 1751486702321,
       "text": "IT does! We fixed even that. This was something interesting, ebcause I was feetching the entries chronologically but rendering them reverse-chronologically. THe way here is to render the entries just as they are fetched, but to reverse the order of the fetching"
+    },
+    {
+      "id": 1751574551071,
+      "text": "Now I'm advancing in the Next.js tutorial since I understand React a bit better. But first - time to learn some Javascript concepts. How fun! "
     }
   ]
 }
