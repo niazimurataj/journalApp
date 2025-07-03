@@ -12,8 +12,10 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "git": "^0.1.5",
-    "lowdb": "^7.0.1"
+    "lowdb": "^7.0.1",
+    "openai": "^5.8.2"
   }
 }

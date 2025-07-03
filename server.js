@@ -3,6 +3,8 @@ import express from 'express';
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
 import cors from 'cors';
+import 'dotenv/config'; // this imports the dotenv package, which loads environment variables from a .env file into process.env
+import OpenAI from 'openai';
 
 // sets up a port for the app to listen to
 
@@ -33,11 +35,6 @@ if (!db.data) {
 }
 await db.write(); // this is also hydration
 
-// # START THE SERVER
-app.listen(PORT, () => {
-    console.log(`🚀🚀🚀 Server is running on http://localhost:${PORT}`);
-});
-
 // # SET UP THE ROUTES 🚀🚀🚀
 
 app.get('/entries', (req, res) => { res.json(db.data.entries)});
@@ -55,6 +52,27 @@ app.post('/entries', async (req, res) => {
 
 }); // this is a super interesting line, shows a lot about req/res cycle
 
+app.get('/analysis', async (req, res) => {
+    const dbEntries = db.data.entries;
+    const dbEntriesPrompt = dbEntries.join(', \n');
+
+    const openai = new OpenAI({
+        baseURL: 'https://api.fireworks.ai/inference/v1',
+        apiKey: process.env.FIREWORKS_API_KEY, // this is the API key for the OpenAI API, which is stored in the .env file
+    });
+
+    const completion = await openai.chat.completions.create({
+        messages: [{ 
+            role: "user", 
+            content: " # Role and Instruction \n\n You are an insightful and responsible AI assistant that analyzes user journal entries. Analyze the provided entries and provide insights, suggestions, and reflections. \n\n # Output format \n\n You should format your response as follows: ## Analysis of Entries\n\n <Short 10-16 word sentence about prevailing theme of entries> \n\n ## Suggestions for Improvement\n\n <Short 10-16 word sentence about how to improve the entries> \n\n ## Immediate Next Steps\n\n <Short 10-16 word sentence about what the user should do next> \n\n ## Reflections on Progress\n\n <Short 10-16 word sentence about how the user has progressed> \n\n ## Additional Thoughts\n\n <Short 10-16 word sentence about any additional thoughts you have> # Motivation \n\n <Short 10-16 word sentence about how the user can stay motivated> \n\n\n\n # Entries \n\n " + dbEntriesPrompt
+        }],
+        model: "accounts/fireworks/models/llama-v3p3-70b-instruct",
+    });
+
+    res.json(completion.choices[0].message.content); // this sends back the analysis of the entries
+    // this is a very simple example, but you can see how you can use the OpenAI API to analyze the entries in the database);
+
+});
 
 app.put('/entries/:id', (req,res) => {
     const id = parseInt(req.params.id, 10);
@@ -63,4 +81,9 @@ app.put('/entries/:id', (req,res) => {
 app.delete('entries/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
     // <todo - use the ID above to delete the entry in the db, will need to learn lowdb methods!>
+});
+
+// # START THE SERVER
+app.listen(PORT, () => {
+    console.log(`🚀🚀🚀 Server is running on http://localhost:${PORT}`);
 });
