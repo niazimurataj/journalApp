@@ -74,10 +74,28 @@ app.get('/analysis', async (req, res) => {
 
 });
 
-app.put('/entries/:id', (req,res) => {
+app.put('/entries/:id', async (req,res) => {
     const id = parseInt(req.params.id, 10);
     // <todo - use this id to replace the entry in the db with the new data from req.body>
+    const entryIndex = db.data.entries.findIndex(entry => entry.id === id);
+    if (entryIndex !== -1) {
+        // the below creates a new entry object with all the properties of the existing entry
+        // then, it replaces the existing entry's properties with the new ones from req.body
+        // this is a common pattern in JavaScript to update an object with new properties
+        // this is called the spread operator, and it merits further study
+        // btw...the curly braces {} are used to create an object in JavaScript
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/
+        db.data.entries[entryIndex] = { ...db.data.entries[entryIndex], ...req.body };
+        db.data.entries[entryIndex].id = id; // ensure the ID remains the same
+
+        // adding the await so the frontend doesn't freak out / fails to receive a response
+        await db.write(); // write the changes to the db
+        res.json(db.data.entries[entryIndex]); // send back the updated entry
+    } else {
+        res.status(404).json({ message: 'Entry not found' }); // if the entry is not found, send a 404 error
+    }
 });
+
 app.delete('entries/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
     // <todo - use the ID above to delete the entry in the db, will need to learn lowdb methods!>

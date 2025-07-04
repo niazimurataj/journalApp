@@ -9,6 +9,7 @@
   - Handlers as a concept 
  - Request / response cycles and middleware in expresss
  - Languages! Read a languages book ... 
+ - Mutability in JS and HTML and react
 
 
 
@@ -21,7 +22,9 @@
  - How to program a node js server with endpoints and a database
  - Req and res object anatomies (fields, e.g. req.body)
  - The concept of mutation in javascript
- - state, immutability, controlled components, the render cycle, statements vs. expressions, and mutation
+ - state, immutability, controlled components, the render cycle, statements vs. expressions, and now, mutation
+ - spread operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/
+
 
 ## Notes
 Use this to note down every step of creating an app - super granularly, from imports to npm init, to editing package.json to middleware etc. - and memorize the process , be able to speak about it fluently and adapt it to new projects. Then create your own projects/problems , use an LLM as a crutch in the interim, but you should finally be able to code without the help of an LLM

@@ -22,19 +22,20 @@
                 // it's tied to the component and not the DOM, so when you refresh the page it doesn't persist
                 // useState is the react hook, or ready-to-use function, that defines state (benefit of using React!)
 
-                const stateArray = useState(''); // note: the '' is the initialized value, where you enter the entry in text box
-                const entryText = stateArray[0]; 
-                const setEntryText = stateArray[1]; 
+                const [entryText, setEntryText] = useState('');
 
                 const [view, setView] = useState('journal');
                 const [analysis, setAnalysis] = useState('No analysis conducted yet');
-
-                // this is equivalent to const [entryText, setEntryText] = useState(''); <= this is also destructuring
+                const [editingId, setEditingId] = useState(null);
+                const [editingText, setEditingText] = useState('');
 
                 // now define the table of entries 
-                const entriesArray = useState([]); // same principle as above, except use an empty list 
-                const entries = entriesArray[0];
-                const setEntries = entriesArray[1];
+                const [entries, setEntries] = useState([]);
+
+                // the above is equivalent to:
+                // const entries = useState([]); // this is an array with two elements - the first is the state variable and the second is the setter function
+                // const setEntries = entries[1]; // this is the setter function that updates the state variable            
+                // const entries = entries[0]; // this is the state variable that holds the entries
 
                 // now that we have this state, we need to presumably render HTML/JSX around it ...
 
@@ -116,6 +117,90 @@
                     console.log("Failed to fetch entries!", error);
                 }
                 };  
+
+                // broken code - I split this into two handlers for each button
+                /*
+                const handleEditEntry = async (id) => {
+                    // this is the handler for editing an entry
+                    // you can do stuff with the event, like get the text from the input field
+                    console.log(`Editing entry with ${id}`);
+                    setEditingId(id); // sets the editing ID to the id of the current <tr> that the button was clicked on
+                        // this will render an input field instead of just a table row
+                    
+                    // now the user would type the new text into the input field
+                    // we need to save this text in state, and then pass that text to the backend to update the entry
+                    // do we need a new state? ...
+
+                    // i'm lost here ... the autocomplete says we wouldn't need a new state
+
+                    // so we need to get the text from the input field, which is already bound to the entryText state
+                    // then we need to send a PUT request to the backend with the id and the new text
+                    // remmeber that I can't directly set entryText, I have to use the setter function setEntryText
+
+                    // the below is what GitHub Copilot suggests, but I don't understand it
+                    // const inputField = document.querySelector(`input[type="text"][defaultValue="${entries.find(entry => entry.id === id).text}"]`);
+                    // setEntryText(inputField.value); // this sets the entryText state to the value of the input field
+
+                    // also - BS! apparently the above suggested is direct DOM manipulation, which is bad in React
+                    // So I was right! I do need a new piece of state (editingText) to hold the text of the entry being edited
+
+                    setEditingText(entries.find(entry => entry.id === id).text); // this sets the editingText state to the text of the entry being edited
+
+                    
+
+                    // now we could presumably send the PUT request to the backend to update the entry - let's try
+                    const response = await fetch(`http://localhost:8000/entries/${id}`,{
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({"text": entryText})
+                    });
+                    const updatedEntry = await response.json();
+                    console.log("Updated entry: ", updatedEntry);
+
+
+                };
+                */
+
+                const handleStartEdit = (id) => {
+                    // alright - this should mimic the original form submit function ... 
+                    console.log(`Starting edit for entry with id ${id}`);
+                    setEditingId(id);
+                    setEditingText(entries.find(entry => entry.id == id).text);
+                };
+
+                const handleSaveEdit = async (id) => {
+                    // here, I'm just taking what the editingText state is and sending it to the backend
+                    console.log(`Saving edit for entry with id ${id} and text ${editingText}`);
+
+                    const response = await fetch(`http://localhost:8000/entries/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({text: editingText})
+                    })
+
+                    // at the end I probably want to clear the editingId state and the editingText state
+
+                    if(response.ok) {
+                        // i need to update the entries state of course ...
+                        const updatedEntry = await response.json();
+                        console.log("Updated entry: ", updatedEntry);
+                        setEntries(
+                            entries.map(entry => entry.id === id ? updatedEntry : entry)
+                            // this is using map to take all the entries, and then keep all them the same unless the id matches
+                            // this is the id of the local handler scope, so the editingId
+
+                            // you could maybe even put a check for that to make sure for redundancy
+                        );
+                        // now editing id should be reset - which will trigger a re-render
+                        setEditingId(null);
+                        setEditingText(''); // clear the editing text state
+                        console.log("Edit saved successfully");
+
+                    } else {
+                        console.error("Failed to save edit");
+                        // a self-healing app would probably try to revert the state back to the original 
+                    }
+                };
                 
                 // # VIEW #
                 // FYI - you want to wrap this in a return statement!!
@@ -161,22 +246,37 @@
                                     </thead>
                                     <tbody>
                                         {[...entries].map(entry => (
-                                            <tr key={entry.id}>
-                                                <td>
-                                                    {(() => {
-                                                        const dateObj = new Date(entry.id);
-                                                        const date = dateObj.toLocaleDateString();
-                                                        const time = dateObj.toLocaleTimeString();
-                                                        return (
-                                                            <>
-                                                                <div>{date}</div>
-                                                                <div>{time}</div>
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </td>
-                                                <td>{entry.text}</td>
-                                            </tr>
+                                            editingId === entry.id ? (
+                                                    <tr key={entry.id}>
+                                                        <td>
+                                                            <button onClick={() => handleSaveEdit(entry.id)}>Save</button>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text"
+                                                                defaultValue={entry.text} 
+                                                                onChange={(e) => setEditingText(e.target.value)}/>
+                                                        </td>
+                                                        <td> <button onClick={() => setEditingId(null)}>Cancel Edit</button> </td>
+                                                    </tr>
+                                            ) : (
+                                                <tr key={entry.id}>
+                                                    <td>
+                                                        {(() => {
+                                                            const dateObj = new Date(entry.id);
+                                                            const date = dateObj.toLocaleDateString();
+                                                            const time = dateObj.toLocaleTimeString();
+                                                            return (
+                                                                <>
+                                                                    <div>{date}</div>
+                                                                    <div>{time}</div>
+                                                                </>
+                                                            );
+                                                        })()}
+                                                    </td>
+                                                    <td>{entry.text}</td>
+                                                    <td> <button onClick={() => handleStartEdit(entry.id)}>Edit</button></td>
+                                                </tr>
+                                            )
                                         ))}
                                     </tbody>
                                 </table>
@@ -185,7 +285,7 @@
                             <div>
                                 <h1>Welcome to the Journal App!</h1>
                                 <p>Please select a view to continue.</p>
-                                <button onClick={() => setView('journal')}>Go to Journal</button>
+                                <button onClick={() => setView("journal")}>Go to Journal</button>
                                 <hr />
                                 <h2>Analysis of Journal Entries</h2>
                                 <button onClick={handleAnalysis}>Analyze Entries</button>
