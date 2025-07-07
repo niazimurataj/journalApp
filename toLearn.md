@@ -24,6 +24,7 @@
  - The concept of mutation in javascript
  - state, immutability, controlled components, the render cycle, statements vs. expressions, and now, mutation
  - spread operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/
+ - setting onClick and onChange, what these do vis a vis the Rendering Cycle, and why we need anonymous function notation within these JSX {}
 
 
 ## Notes

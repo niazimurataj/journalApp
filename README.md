@@ -1,26 +1,12 @@
-# Simple Journal App
-Goal: fight full stack skillset atrophy 
+# React + Vite
 
-## What
-A simple journaling app meant to jog the brain's web dev skillset.
- - You submit an entry into a form field
- - It gets stored as state
- - That state is passed into the body of a request
- - writing endpoint is fetched from an express backend
- - the info is pushed into a db
- - You can then list all entries from that db in a table
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Why
-Unifies a few things, so I can remember how things work 
- - DOM interaction
- - React state
- - Endpoints
- - Databases
- - Express apps
- - basic HTML skills
- - basic JSX skills
- - some basic JS
+Currently, two official plugins are available:
 
-I've basically been a strategist and my skillset atrophied for a while. 
-Brings me joy to build, so why not? Hoping to do a few of these projects until I get my fluency back EOY
-No vibe coding
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

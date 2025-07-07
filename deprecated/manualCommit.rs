@@ -13,3 +13,9 @@ fn main() {
     println!("Maybe it will, maybe it won't");
 }
 
+// amount of days since last commit
+// 0 days since last commit
+
+// streak
+// 3 day streak
+
