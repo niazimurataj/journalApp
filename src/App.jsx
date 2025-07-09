@@ -1,34 +1,40 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import AnalysisPage from './pages/AnalysisPage'
+import EntryPage from './pages/EntryPage'
+import LogPage from './pages/LogPage'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import './App.css' // Assuming you have some global styles here
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Okay, so this is the main state for which page is showing.
+  // useState('entry') means we start on the entry page by default.
+  const [page, setPage] = useState('entry')
+
+  // This function decides which page component to render based on the current state.
+  // It checks the value of 'page' and returns the corresponding component.
+  const renderPage = () => {
+    switch (page) {
+      case 'analysis':
+        return <AnalysisPage />
+      case 'log':
+        return <LogPage />
+      case 'entry':
+      default:
+        // If 'page' is 'entry' or anything unexpected, just show EntryPage.
+        return <EntryPage />
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      {/* Header gets setPage as a prop, so I guess Header can change which page is showing? */}
+      <Header setPage={setPage} />
+      {/* This is where the main content changes depending on 'page' */}
+      {renderPage()}
+      {/* Footer is always shown, nothing fancy here */}
+      <Footer />
+    </div>
   )
 }
 
