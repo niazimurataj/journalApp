@@ -5,6 +5,8 @@ import LogPage from './pages/LogPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import './App.css' // Assuming you have some global styles here
+import PlushyMirror from './components/PlushyMirror'
+
 
 function App() {
   // Okay, so this is the main state for which page is showing.
@@ -33,6 +35,7 @@ function App() {
       {/* This is where the main content changes depending on 'page' */}
       {renderPage()}
       {/* Footer is always shown, nothing fancy here */}
+      <PlushyMirror />
       <Footer />
     </div>
   )
