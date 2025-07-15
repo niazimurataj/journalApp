@@ -37,6 +37,7 @@ function App() {
       {/* Footer is always shown, nothing fancy here */}
       <PlushyMirror />
       <Footer />
+      {/*TODO: make the above a background to the journal*/}
     </div>
   )
 }
