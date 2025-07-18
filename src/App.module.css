@@ -1,4 +1,4 @@
-.entryPageContainer {
+.appContainer {
   position: relative; /* This will allow the PlushyMirror to be positioned absolutely within this container */
   width: 100vw;
   height: 100vh;
@@ -15,7 +15,7 @@
   pointer-events: none; /* So you can interact with the form above */
 }
 
-.entryContent {
+.pageContent {
     position: relative;
     z-index: 2; /* Ensures that the content is above the PlushyMirror */
     display: flex;
@@ -26,21 +26,28 @@
     padding: 20px;
 }
 
-.sideGif {
+.leftSideGif {
     position: absolute;
-    left: 20px;
+    left: 0.3vw;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 1;
-    max-width: 200px;
-    max-height: 300px;
+    z-index: 4;
+    max-width: 400px;
+    max-height: 600px;
 }
 
-.header {
-    font-family: "Fraktur", "Old English Text MT", "Blackletter", serif;
-    font-weight: bold;
-    font-size: 7rem;
+.rightSideGif {
+    position: absolute;
+    right: 0.3vw;
+    top: 50%;
+    transform: translateY(-50%) scaleX(-1);
+    z-index: 4;
+    max-width: 400px;
+    max-height: 600px;
 }
 
-
-
+@media (max-width: 768px) {
+    .leftSideGif, .rightSideGif {
+        display: none;
+    }
+}
