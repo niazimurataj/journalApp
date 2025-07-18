@@ -8,6 +8,8 @@ import styles from './App.module.css' // Updated to use module CSS
 import PlushyMirror from './components/PlushyMirror'
 import ArchedBackground from './components/ArchedBackground'
 
+const source = 'https://sieve-prod-us-central1-persistent-bucket.storage.googleapis.com/7542bf63-aad6-4f31-a8f4-5b9b93995efe/9f6ec7de-7321-4189-a512-1f06a1ef1340/1dfc6407-cbd6-4512-8f59-156136ab8b4e/tmpu_o9zm07.gif?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=abhi-admin%40sieve-grapefruit.iam.gserviceaccount.com%2F20250718%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250718T232800Z&X-Goog-Expires=172800&X-Goog-SignedHeaders=host&x-goog-signature=b067ab7518b12bd18d71a09ba4d04dec6098a0c3c01468c1e8a97841d333cbc44abb4068573ffbf33c781618394b9e46ecc627911ade63756a38c558246b71fabbd4f80d4a162954f66840187a1db8f25d2d4b23b7928cec745e39b41cb8525e14e11c0870afc1152c03fad86b49eb680dcacc5a414bbcea85dc4d6c0c99cb32d3049e9eb38e5ca9f24f6756f053e7b960aa74d19b4c3f71f3820f46daee464286f8590fd6019bb6b8d697d03031776a42d32a68c41c9829c0a76047755f5e683ee1d2ee3fa1a9662952f7a6653160f8b1f018f961a9e4a1c01ce877f416a6a9c7b4755d941b10978c3a2291960529a77baaf06698ca6714fcf52fbfda9e01f5';
+
 
 function App() {
   // Okay, so this is the main state for which page is showing.
@@ -39,12 +41,12 @@ function App() {
         </div>
       </ArchedBackground>
       <img 
-        src="https://sieve-prod-us-central1-persistent-bucket.storage.googleapis.com/7542bf63-aad6-4f31-a8f4-5b9b93995efe/d140b5a6-5601-4bfa-a1ab-ea35b0040226/64caeb94-32e9-458a-b010-14f6af682f11/tmpi982pv2v.gif?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=abhi-admin%40sieve-grapefruit.iam.gserviceaccount.com%2F20250718%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250718T230758Z&X-Goog-Expires=172800&X-Goog-SignedHeaders=host&x-goog-signature=5aec64ed48f1bd1e57fd5aa5fe41c5269230c8cba659e48b34dbb2c7f82f8d2a3c4a90d44cecc9284c247ce4c3a66c555c38096c8af1611492c621c84305643d4a46a6770c95a1d818987efb529a70a0139429524c6853e5d875ff025e1b2acacae0f7b8964080737794187fe3d9859ec900c330af53529c8a1918fe568ca7a3d6590ce9b70703fd1da6bf35d7eedea1a59c69b3e75e758bcf6a9b9e32f439bd518358c392fc857395fc8bc76793aca05858a02dd7434f5e4dd617ce11c531d03521f298b397ea279c54275c1a644d5595d4d37132a6d16e5ad8477b8669f0d6f09b4b5a3f4443962616d84fc577863ee27d7e863994d68ffc5b0e68cef2e461"
+        src={source}
         alt="Right side gif"
         className={styles.rightSideGif}
       />
       <img 
-        src="https://sieve-prod-us-central1-persistent-bucket.storage.googleapis.com/7542bf63-aad6-4f31-a8f4-5b9b93995efe/d140b5a6-5601-4bfa-a1ab-ea35b0040226/64caeb94-32e9-458a-b010-14f6af682f11/tmpi982pv2v.gif?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=abhi-admin%40sieve-grapefruit.iam.gserviceaccount.com%2F20250718%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250718T230758Z&X-Goog-Expires=172800&X-Goog-SignedHeaders=host&x-goog-signature=5aec64ed48f1bd1e57fd5aa5fe41c5269230c8cba659e48b34dbb2c7f82f8d2a3c4a90d44cecc9284c247ce4c3a66c555c38096c8af1611492c621c84305643d4a46a6770c95a1d818987efb529a70a0139429524c6853e5d875ff025e1b2acacae0f7b8964080737794187fe3d9859ec900c330af53529c8a1918fe568ca7a3d6590ce9b70703fd1da6bf35d7eedea1a59c69b3e75e758bcf6a9b9e32f439bd518358c392fc857395fc8bc76793aca05858a02dd7434f5e4dd617ce11c531d03521f298b397ea279c54275c1a644d5595d4d37132a6d16e5ad8477b8669f0d6f09b4b5a3f4443962616d84fc577863ee27d7e863994d68ffc5b0e68cef2e461"
+        src={source}
         alt="Left side gif"
         className={styles.leftSideGif}
       />
