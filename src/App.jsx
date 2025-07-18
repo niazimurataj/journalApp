@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import './App.css' // Assuming you have some global styles here
 import PlushyMirror from './components/PlushyMirror'
+import ArchedBackground from './components/ArchedBackground'
 
 
 function App() {
@@ -30,14 +31,9 @@ function App() {
 
   return (
     <div className="App">
-      {/* Header gets setPage as a prop, so I guess Header can change which page is showing? */}
-      <Header setPage={setPage} />
-      {/* This is where the main content changes depending on 'page' */}
-      {renderPage()}
-      {/* Footer is always shown, nothing fancy here */}
-      <PlushyMirror />
-      <Footer />
-      {/*TODO: make the above a background to the journal*/}
+        <Header setPage={setPage} />
+        {renderPage()}
+        <Footer />
     </div>
   )
 }

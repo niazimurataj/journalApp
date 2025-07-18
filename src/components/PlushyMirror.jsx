@@ -56,7 +56,7 @@ const glowFragmentShader = `
 
 
 // --- The React Component ---
-const PlushyMirror = () => {
+const PlushyMirror = ({className}) => {
     // useRef is React's way of getting a direct reference to a DOM element.
     const mountRef = useRef(null);
 
@@ -73,8 +73,8 @@ const PlushyMirror = () => {
         renderer.toneMappingExposure = 1.5;
 
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 1, 5);
-        camera.lookAt(0, 1, 0);
+        camera.position.set(0, 3, 5);
+        camera.lookAt(0, 1, 1.618);
 
         // --- The Objects (Mirror + Glow Layers) ---
         const cushionGroup = new THREE.Group();
@@ -82,11 +82,11 @@ const PlushyMirror = () => {
         scene.add(cushionGroup, glowCushionGroup);
 
         const curvePoints = [
-            new THREE.Vector3(0, 2.5, -0.2),
-            new THREE.Vector3(0, 1, 0),
+            new THREE.Vector3(0, 2.5, -1),
+            new THREE.Vector3(0, 1, 1),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(0, -1.5, 0.5),
-            new THREE.Vector3(0, -2.5, 2.5)
+            new THREE.Vector3(0, -2.5, 3.5)
         ];
         const curve = new THREE.CatmullRomCurve3(curvePoints);
         const tubeRadius = 0.4;
@@ -111,7 +111,7 @@ const PlushyMirror = () => {
             blending: THREE.AdditiveBlending,
         });
 
-        const numCushions = 15;
+        const numCushions = 25;
         const spacing = 0.55;
         for (let i = 0; i < numCushions; i++) {
             const positionX = (i - (numCushions - 1) / 2) * spacing;
@@ -134,7 +134,7 @@ const PlushyMirror = () => {
         
         // --- Environment & Lighting ---
         new RGBELoader().load(
-            'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_03_1k.hdr',
+            'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/qwantani_dusk_2_puresky_4k.hdr',
             (texture) => {
                 texture.mapping = THREE.EquirectangularReflectionMapping;
                 scene.environment = texture;
@@ -210,7 +210,7 @@ const PlushyMirror = () => {
     }, []); // Empty array ensures this effect runs only once
 
     // The component returns a canvas element that our Three.js scene will render into.
-    return <canvas ref={mountRef} style={{ width: '100vw', height: '100vh', display: 'block' }} />;
+    return <canvas ref={mountRef} className={className} style={{ width: '100vw', height: '100vh', display: 'block' }} />;
 };
 
 export default PlushyMirror;

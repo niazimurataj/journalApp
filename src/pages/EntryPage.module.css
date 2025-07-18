@@ -1,0 +1,30 @@
+.entryPageContainer {
+  position: relative; /* This will allow the PlushyMirror to be positioned absolutely within this container */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* What this does: prevents scrollbars from appearing */
+}
+
+.plushyMirrorCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none; /* So you can interact with the form above */
+}
+
+.entryContent {
+    position: relative;
+    z-index: 2; /* Ensures that the content is above the PlushyMirror */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+
+

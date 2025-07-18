@@ -1,0 +1,24 @@
+.archContainer {
+    width: 50vw;
+    height: 100vh;
+    border-top-left-radius: 200%;
+    border-top-right-radius: 200%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    background: rgba(30,30,30,0.25);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* For Safari support */
+
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto; /* This centers the container horizontally */
+}
+
