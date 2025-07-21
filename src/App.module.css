@@ -28,22 +28,24 @@
 
 .leftSideGif {
     position: absolute;
-    left: 0.3vw;
+    left: 0.1vw;
     top: 50%;
     transform: translateY(-50%);
     z-index: 4;
-    max-width: 400px;
-    max-height: 600px;
+    max-width: 1600px;
+    max-height: 2400px;
+    left: -4vw;
 }
 
 .rightSideGif {
     position: absolute;
-    right: 0.3vw;
+    right: 0.1vw;
     top: 50%;
     transform: translateY(-50%) scaleX(-1);
     z-index: 4;
-    max-width: 400px;
-    max-height: 600px;
+    max-width: 1600px;
+    max-height: 2400px;
+    right: -4vw;
 }
 
 @media (max-width: 768px) {

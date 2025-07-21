@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { SimplexNoise } from 'three/addons/math/SimplexNoise.js';
 
+const warm = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/the_sky_is_on_fire_4k.hdr';
+const cool = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/qwantani_dusk_2_puresky_4k.hdr';
+
 // --- Glow Shader (Defined once, outside the component) ---
 const glowVertexShader = `
     varying vec3 vNormal;
@@ -134,7 +137,7 @@ const PlushyMirror = ({className}) => {
         
         // --- Environment & Lighting ---
         new RGBELoader().load(
-            'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/qwantani_dusk_2_puresky_4k.hdr',
+            cool,
             (texture) => {
                 texture.mapping = THREE.EquirectangularReflectionMapping;
                 scene.environment = texture;
