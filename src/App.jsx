@@ -31,6 +31,9 @@ function App() {
   }
 
   return (
+    // TODO: Add the headerLinks prop to the ArchedBackground component
+    // or otherwise figure out navigation
+    // this should lead to a black screen with the angel scrol driven animation
     <div className={styles.appContainer}>
       <PlushyMirror className={styles.plushyMirrorCanvas} />
       <ArchedBackground>

@@ -87,6 +87,7 @@ const PlushyMirror = ({className}) => {
         const curvePoints = [
             new THREE.Vector3(0, 2.5, -1),
             new THREE.Vector3(0, 1, 1),
+            new THREE.Vector3(0, -1.618, 0.618),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(0, -1.5, 0.5),
             new THREE.Vector3(0, -2.5, 3.5)
