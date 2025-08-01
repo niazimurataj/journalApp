@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './EntryPage.module.css'; // Assuming you have a CSS module for styles
 
 function EntryPage() {
+    {/* Doll this up, add the angel gif and just put this in your personal site's digital garden */}
     return (
         <>
             <h1 className={styles.header}>Entry Page</h1>
